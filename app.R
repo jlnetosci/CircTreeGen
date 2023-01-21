@@ -29,13 +29,16 @@ get_segments <- function(n) {
 
 #### UI ####
 ui <- fluidPage(
+  h3("Circular Family Tree"),
+  h4("Printable Template Generator"),
   sidebarLayout(
     sidebarPanel(
-      selectInput("n", "Select number of circles:", choices = 2:15, selected = 5),
-      selectInput("size", "Select plot size:",
-                  choices = c("Square" = "square", "A4" = "a4", "Letter" = "letter")),
+      selectInput("n", "Number of generations:", choices = 2:15, selected = 5),
+      selectInput("display", "Display:", choices = c("Circle" = "circle", "Half circle" = "half", "Quarter circle" = "quarter"), selected = "circle"),
+      selectInput("size", "Export size:",
+                  choices = c("Square (100 × 100 cm)" = "square", "A4 landscape (29.7 × 21 cm)" = "a4", "Letter landscape (27.9 × 21.6 cm)" = "letter")),
       downloadButton("downloadPDF", "Save as PDF"),
-      downloadButton("downloadSVG", "Save as SVG")
+      downloadButton("downloadSVG", "Save as SVG"),
     ),
     mainPanel(
       tags$div(style = "display: flex; align-items: center; justify-content: center; height: 600px;", plotOutput("plot", width = "600px", height = "600px"))
@@ -51,26 +54,49 @@ server <- function(input, output) {
     df_circles <- get_circles(n)
     segments_list <- get_segments(n)
     df_segments <- do.call(rbind,segments_list)
-    ggplot() +
-      geom_circle(data = df_circles, aes(x0 = x, y0 = y, r = r), color = "black") +
-      geom_segment(data = df_segments, aes(x = x, y = y, xend = xend, yend = yend)) +
-      scale_x_continuous(expand = c(0, 0)) +
-      scale_y_continuous(expand = c(0, 0)) +
-      coord_equal() +
-      theme_classic()
+    
+    if (input$display == "circle") {
+      ggplot() +
+        geom_circle(data = df_circles, aes(x0 = x, y0 = y, r = r), color = "black") +
+        geom_segment(data = df_segments, aes(x = x, y = y, xend = xend, yend = yend)) +
+        scale_x_continuous(expand = c(0, 0)) +
+        scale_y_continuous(expand = c(0, 0)) +
+        coord_equal() +
+        theme_void()
+    } else if (input$display == "half") {
+      ggplot() +
+        geom_circle(data = df_circles, aes(x0 = x, y0 = y, r = r), color = "black") +
+        geom_segment(data = df_segments, aes(x = x, y = y, xend = xend, yend = yend)) +
+        scale_x_continuous(expand = c(0, 0)) +
+        scale_y_continuous(expand = c(0, 0)) +
+        coord_fixed(ylim = c(-0, max(df_segments$yend))) +
+        #coord_equal() +
+        #geom_hline(yintercept = 0, linetype = "dotted") +
+        theme_void()
+    } else if (input$display == "quarter") {
+      ggplot() +
+        geom_circle(data = df_circles, aes(x0 = x, y0 = y, r = r), color = "black") +
+        geom_segment(data = df_segments, aes(x = x, y = y, xend = xend, yend = yend)) +
+        scale_x_continuous(expand = c(0, 0)) +
+        scale_y_continuous(expand = c(0, 0)) +
+        coord_fixed(xlim = c(0, max(df_segments$xend)), ylim = c(0, max(df_segments$yend))) +
+        #coord_equal() +
+        #geom_hline(yintercept = 0, linetype = "dotted") +
+        theme_void()
+    }
   })
   
   output$downloadPDF <- downloadHandler(
     filename = "plot.pdf",
     content = function(file) {
       if (input$size == "square") {
-        ggsave(file, plot = last_plot(), width = 20, height = 20, units = "cm", device = "pdf")
+        ggsave(file, plot = last_plot(), width = 100, height = 100, units = "cm", device = "pdf")
       }
       if (input$size == "a4") {
-        ggsave(file, plot = last_plot(), width = 21, height = 29.7, units = "cm", device = "pdf")
+        ggsave(file, plot = last_plot(), width = 29.7, height = 21, units = "cm", device = "pdf")
       }
       if (input$size == "letter") {
-        ggsave(file, plot = last_plot(), width = 21.6, height = 27.9, units = "cm", device = "pdf")
+        ggsave(file, plot = last_plot(), width = 27.9, height = 21.6, units = "cm", device = "pdf")
       }
     }
   )
@@ -79,13 +105,13 @@ server <- function(input, output) {
     filename = "plot.svg",
     content = function(file) {
       if (input$size == "square") {
-        ggsave(file, plot = last_plot(), width = 20, height = 20, units = "cm", device = "svg")
+        ggsave(file, plot = last_plot(), width = 100, height = 100, units = "cm", device = "svg")
       }
       if (input$size == "a4") {
-        ggsave(file, plot = last_plot(), width = 21, height = 29.7, units = "cm", device = "svg")
+        ggsave(file, plot = last_plot(), width = 29.7, height = 21, units = "cm", device = "svg")
       }
       if (input$size == "letter") {
-        ggsave(file, plot = last_plot(), width = 21.6, height = 27.9, units = "cm", device = "svg")
+        ggsave(file, plot = last_plot(), width = 27.9, height = 21.6, units = "cm", device = "svg")
       }
     }
   )
