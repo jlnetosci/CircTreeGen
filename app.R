@@ -39,6 +39,16 @@ ui <- fluidPage(
                   choices = c("Square (100 × 100 cm)" = "square", "A4 landscape (29.7 × 21 cm)" = "a4", "Letter landscape (27.9 × 21.6 cm)" = "letter")),
       downloadButton("downloadPDF", "Save as PDF"),
       downloadButton("downloadSVG", "Save as SVG"),
+      br(), br(),
+      p(style="text-align: justify;",
+        "This simple app generates a circular family tree (also known as a circular pedigree or circular genealogy chart), 
+        with some customizable options."),
+      p(style="text-align: justify;",
+        "For a large number of generations, half or quarter circle displays and large size (square) exports are advised."),
+      p(style="text-align: justify;",
+        "Exports from this app can be used by anyone for any purpose. Mention of the app is appreciated but not required."),
+      p(style="text-align: justify;",
+        "Please click", a("here", href="https://github.com/jlnetosci/circ_tree_gen", target='blank'), "for further information and to report any issues.")
     ),
     mainPanel(
       tags$div(style = "display: flex; align-items: center; justify-content: center; height: 600px;", plotOutput("plot", width = "600px", height = "600px"))
