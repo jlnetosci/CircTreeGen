@@ -2,7 +2,7 @@
 
 ## About
 
-This is a repository for the **CircTreeGen** shiny app ([https://jlnetosci.shinyapps.io/CircTreeGen/](https://jlnetosci.shinyapps.io/circ_tree_gen/){.uri}).
+This is a repository for the **CircTreeGen** shiny app ([https://jlnetosci.shinyapps.io/CircTreeGen/](https://jlnetosci.shinyapps.io/circ_tree_gen/)).
 
 While free printable templates for circular family trees/pedigrees/genealogy charts are available throughout the web, their formatting is extremely stiff. **CircTreeGen** was created to provide flexibility when generating these printable templates.
 
