@@ -1,31 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(ggforce)
-
-#### FUNCTIONS ####
-get_circles <- function(n) {
-  if (n<=3) {
-    df_circles <- data.frame(x = rep(0,n), y = rep(0,n), r = c(1:n))
-  } else {
-    df_circles <- data.frame(x = rep(0,n), y = rep(0,n), r = c(1, 2, 3, sqrt(1.8)^((5:(as.numeric(n)+1)))))
-  }
-  return(df_circles)
-}
-
-get_segments <- function(n) {
-  df_circles <- get_circles(n)
-  segments_list <- list()
-  for (i in 2:n) {
-    if (i==2) {
-      theta <- seq(0, 2*pi, length.out = 3)[-1]
-    } else {
-      theta <- seq(0, 2*pi, length.out = 2^(i-1)+1)[-1]
-    }
-    df_segment <- data.frame(x = (df_circles$r[i-1])*cos(theta), y = (df_circles$r[i-1])*sin(theta), xend = (df_circles$r[i])*cos(theta), yend = (df_circles$r[i])*sin(theta), r = rep(i,2^(i-2)))
-    segments_list[[i-1]] <- df_segment
-  }
-  return(segments_list)
-}
+library(svglite)
 
 #### UI ####
 ui <- fluidPage(
@@ -57,6 +33,30 @@ ui <- fluidPage(
 )
 
 #### SERVER ####
+get_circles <- function(n) {
+  if (n<=3) {
+    df_circles <- data.frame(x = rep(0,n), y = rep(0,n), r = c(1:n))
+  } else {
+    df_circles <- data.frame(x = rep(0,n), y = rep(0,n), r = c(1, 2, 3, sqrt(1.8)^((5:(as.numeric(n)+1)))))
+  }
+  return(df_circles)
+}
+
+get_segments <- function(n) {
+  df_circles <- get_circles(n)
+  segments_list <- list()
+  for (i in 2:n) {
+    if (i==2) {
+      theta <- seq(0, 2*pi, length.out = 3)[-1]
+    } else {
+      theta <- seq(0, 2*pi, length.out = 2^(i-1)+1)[-1]
+    }
+    df_segment <- data.frame(x = (df_circles$r[i-1])*cos(theta), y = (df_circles$r[i-1])*sin(theta), xend = (df_circles$r[i])*cos(theta), yend = (df_circles$r[i])*sin(theta), r = rep(i,2^(i-2)))
+    segments_list[[i-1]] <- df_segment
+  }
+  return(segments_list)
+}
+
 server <- function(input, output) {
   
   output$plot <- renderPlot({
