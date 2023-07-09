@@ -2,20 +2,20 @@
 
 ## About
 
-This is a repository for the **CircTreeGen** shiny app ([https://jlnetosci.shinyapps.io/CircTreeGen/](https://jlnetosci.shinyapps.io/circ_tree_gen/)).
+This is a repository for the **CircTreeGen** shiny app ([https://jlnetosci.shinyapps.io/CircTreeGen/](https://jlnetosci.shinyapps.io/CircTreeGen/)).
 
-While free printable templates for circular family trees/pedigrees/genealogy charts are available throughout the web, their formatting is extremely stiff. **CircTreeGen** was created to provide flexibility when generating these printable templates.
+While free printable templates for circular family trees/fan charts are available throughout the web, their formatting is extremely stiff. **CircTreeGen** was created to provide flexibility when generating these printable templates.
 
 This simple app generates a circular family tree with some customizable options:
 
--   Number of generations: from 2 to a maximum of 15 (v0.1.0).
+-   Number of generations: from 2 to a maximum of 12 (v0.1.1).
 -   Display type: full, half, or quarter circle.
 -   Export size: a 100×100 cm square, standard sizes A4 (29.7×21 cm) or Letter (27.9×21.6 cm) in landscape.
 -   Export format: PDF or SVG.
 
 ### Number of Generations
 
-A maximum number of 15 generations was selected to provide a wide range while keeping a "sane" limit.
+A maximum number of 12 generations was selected to provide a wide range while keeping a sane limit.
 
 ### Display type
 
@@ -49,14 +49,8 @@ A local instance of this app can be run using Docker ([download](https://docs.do
 
 Usage example:
 
-1.  Pull the image from dockerhub, with `docker pull jlnetosci/circtreegen:v0.1.0`.
-2.  Run `docker run -p 3838:3838 jlnetosci/circtreegen:v0.1.0` to start the application.
+1.  Pull the image from dockerhub, with `docker pull jlnetosci/circtreegen:v0.1.1`.
+2.  Run `docker run -p 3838:3838 jlnetosci/circtreegen:v0.1.1` to start the application.
 3.  Open `http://localhost:3838/` in your browser.
 
 The fully functional app should be available in your local machine.
-
-------------------------------------------------------------------------
-
-## License
-
-![](https://img.shields.io/badge/License-GPLv3-blue.svg)
