@@ -9,7 +9,7 @@ ui <- fluidPage(
   h4("Printable Template Generator"),
   sidebarLayout(
     sidebarPanel(
-      selectInput("n", "Number of generations:", choices = 2:15, selected = 5),
+      selectInput("n", "Number of generations:", choices = 2:12, selected = 5),
       selectInput("display", "Display:", choices = c("Circle" = "circle", "Half circle" = "half", "Quarter circle" = "quarter"), selected = "circle"),
       selectInput("size", "Export size:",
                   choices = c("Square (100 × 100 cm)" = "square", "A4 landscape (29.7 × 21 cm)" = "a4", "Letter landscape (27.9 × 21.6 cm)" = "letter", selected = "a4")),
@@ -17,8 +17,7 @@ ui <- fluidPage(
       downloadButton("downloadSVG", "Save as SVG"),
       br(), br(),
       p(style="text-align: justify;",
-        "This simple app generates a circular family tree (also known as a circular pedigree or circular genealogy chart), 
-        with some customizable options."),
+        "This simple app generates a circular family tree (also known as a fan chart), with some customizable options."),
       p(style="text-align: justify;",
         "For a large number of generations large size (square) exports are advised."),
       p(style="text-align: justify;",
